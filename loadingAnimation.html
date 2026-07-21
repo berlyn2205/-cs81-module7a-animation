@@ -6,35 +6,71 @@
 </head>
 <body style="font-family: monospace; text-align: center; padding-top: 100px; background-color: #f4f4f4;">
 
+<!-- This div displays the changing loading animation frames. -->
   <div id="loader" style="font-size: 2rem; margin-bottom: 20px;">Loading...</div>
+
+  <!-- This div displays the current status of the animation. -->
   <div id="status">Please wait</div>
 
   <script>
+    // This function controls the entire loading animation.
     function runLoadingAnimation() {
+      
+      // Gets the HTML element with the ID "loader" so JavaScript can update it.
       const loader = document.getElementById("loader");
+      
+      // Gets the HTML element with the ID "status" so its text can be changed.
       const status = document.getElementById("status");
 
+      // This array contains the different frames used to create the animation.
       const frames = ["⏳", "⌛", ".", "..", "..."];
+      
+      // Keeps track of which frame should be displayed next.
       let index = 0;
+
+      // Counts how many complete animation cycles have occurred.
       let cycleCount = 0;
+
+      // Sets the maximum number of cycles before the animation stops.
       const maxCycles = 10;
 
+      // setInterval creates an asynchronous loop that runs every 500 milliseconds
       const interval = setInterval(() => {
+        
+        // Updates the loader element with the current frame from the frames array
         loader.textContent = frames[index % frames.length];
+        
+        // Increases the index so the next frame will be displayed.
         index++;
 
+        // When all frames have been displayed, one complete cycle is counted.
         if (index % frames.length === 0) {
           cycleCount++;
         }
 
+        // New feature: changes the background color as the animation progresses.
+        document.body.style.backgroundColor =
+          cycleCount % 2 === 0 ? "#f4f4f4" : "#e8f5e9";
+
+
+        // Checks whether the animation has reached the maximum number of cycles.
         if (cycleCount >= maxCycles) {
+          
+          // clearInterval stops the repeating asynchronous loop.
           clearInterval(interval);
+
+          // Changes the loader to a checkmark when the animation is complete
           loader.textContent = "✅";
+
+          // Updates the status message to show that loading is finished.
           status.textContent = "Done!";
         }
       }, 500);
+
+      // Creative idea: a sound effect or music could play when the animation starts or finishes.
     }
 
+    // Calls the function to start the loading animation.
     runLoadingAnimation();
   </script>
 
